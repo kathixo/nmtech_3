@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - NMORAILANE Tech</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+          url("images/admin_back.jpg") no-repeat center center/cover;
+    }
+    .animate-hover:hover {
+      transform: translateY(-5px);
+      transition: transform 0.2s ease-in-out;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    // Check if the logged-in user has admin rights
+    const role = localStorage.getItem("userRole");
+    if (role !== "admin") {
+      window.location.href = "login.html"; // Redirect to login if not admin
+    }
+
+    // Logout function
+    function logout() {
+      sessionStorage.removeItem("loggedInUser");
+      localStorage.removeItem("userRole");
+      window.location.href = "login.html";
+    }
+
+    // Load products from localStorage and display them
+    function loadProducts() {
+      const products = JSON.parse(localStorage.getItem("products")) || [
+        { name: "Solar Power Bank", price: 499, stock: 15, image: "solar_power_bank.jpg" },
+        { name: "Wireless Earbuds Pro", price: 899, stock: 25, image: "wireless_earbuds.jpg" },
+        { name: "Smart Watch Lite", price: 1200, stock: 10, image: "smart_watch_lite.jpg" }
+      ];
+      localStorage.setItem("products", JSON.stringify(products));  // Store default products if empty
+
+      const productTableBody = document.getElementById("productTableBody");
+      productTableBody.innerHTML = ""; // Clear existing rows
+
+      products.forEach((product, index) => {
+        const productRow = document.createElement("tr");
+
+        productRow.innerHTML = `
+          <td>${product.name}</td>
+          <td>R${product.price}</td>
+          <td>${product.stock}</td>
+          <td>
+            <button class="btn btn-warning btn-sm" onclick="editProduct(${index})">Edit</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteProduct(${index})">Delete</button>
+          </td>
+        `;
+        
+        productTableBody.appendChild(productRow);
+      });
+    }
+
+    // Add a new product
+    function addProduct() {
+      const name = prompt("Enter product name:");
+      const price = parseFloat(prompt("Enter product price (ZAR):"));
+      const stock = parseInt(prompt("Enter product stock quantity:"));
+      const image = prompt("Enter product image filename (optional):");
+
+      if (!name || isNaN(price) || isNaN(stock)) {
+        alert("Please enter valid product details");
+        return;
+      }
+
+      const newProduct = {
+        name,
+        price,
+        stock,
+        image: image || "default_product_image.jpg",
+      };
+
+      const products = JSON.parse(localStorage.getItem("products")) || [];
+      products.push(newProduct);
+      localStorage.setItem("products", JSON.stringify(products));
+
+      loadProducts(); // Reload the product list
+    }
+
+    // Edit an existing product
+    function editProduct(index) {
+      const products = JSON.parse(localStorage.getItem("products")) || [];
+      const product = products[index];
+
+      const name = prompt("Edit product name:", product.name);
+      const price = parseFloat(prompt("Edit product price (ZAR):", product.price));
+      const stock = parseInt(prompt("Edit product stock quantity:", product.stock));
+      const image = prompt("Edit product image filename:", product.image);
+
+      if (!name || isNaN(price) || isNaN(stock)) {
+        alert("Please enter valid product details");
+        return;
+      }
+
+      products[index] = { name, price, stock, image: image || product.image };
+      localStorage.setItem("products", JSON.stringify(products));
+
+      loadProducts(); // Reload the product list after editing
+    }
+
+    // Delete a product
+    function deleteProduct(index) {
+      const products = JSON.parse(localStorage.getItem("products")) || [];
+      products.splice(index, 1);
+      localStorage.setItem("products", JSON.stringify(products));
+
+      loadProducts(); // Reload the product list after deletion
+    }
+
+    // On page load, load products into the table
+    document.addEventListener("DOMContentLoaded", loadProducts);
+  </script>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">NMORAILANE Tech</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarUserMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarUserMenu">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <span class="navbar-text text-white me-3" id="welcomeUser"></span>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="admin.html">Profile</a></li>
+          <li class="nav-item"><a class="nav-link text-danger" href="#" onclick="logout()">Logout</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Admin Dashboard Section -->
+  <section class="container my-5 animate_animated animate_fadeInUp">
+    <h2 class="text-center mb-4">Admin Dashboard</h2>
+    <div class="row">
+      <!-- Manage Products -->
+      <div class="col-md-6 mb-4">
+        <div class="card shadow-sm animate-hover">
+          <div class="card-body">
+            <h4 class="card-title">Manage Products</h4>
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Price (ZAR)</th>
+                  <th>Stock</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="productTableBody">
+                <!-- Product rows will be populated here -->
+              </tbody>
+            </table>
+            <button class="btn btn-primary mt-2" onclick="addProduct()">Add New Product</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Manage Users (Placeholder) -->
+      <div class="col-md-6 mb-4">
+        <div class="card shadow-sm animate-hover">
+          <div class="card-body">
+            <h4 class="card-title">Manage Users</h4>
+            <p>User management functionality coming soon.</p>
+            <button class="btn btn-secondary">View Users</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- View Orders (Placeholder) -->
+      <div class="col-md-6 mb-4">
+        <div class="card shadow-sm animate-hover">
+          <div class="card-body">
+            <h4 class="card-title">View Orders</h4>
+            <p>Order viewing functionality coming soon.</p>
+            <button class="btn btn-info">View Recent Orders</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-dark text-white py-4 mt-auto"> 
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <h5>NMORAILANE Tech</h5>
+          <p>Proudly South African. Building tech for Mzansi.</p>
+        </div>
+        <div class="col-md-4">
+          <h5>Explore</h5>
+          <ul class="list-unstyled">
+            <li><a href="index.html" class="text-white">Home</a></li>
+            <li><a href="index.html#products" class="text-white">Products</a></li>
+            <li><a href="cart.html" class="text-white">Cart</a></li>
+            <li><a href="profile.html" class="text-white">Profile</a></li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <h5>Support</h5>
+          <ul class="list-unstyled">
+            <li><a href="admin.html" class="text-white">Admin</a></li>
+            <li><a href="contact.html" class="text-white">Contact</a></li>
+            <li><a href="login.html" class="text-white">Login</a></li>
+            <li>Email: <a href="mailto:support@nmorailanetech.co.za" class="text-white">support@nmorailanetech.co.za</a></li>
+          </ul>
+        </div>
+      </div>
+      <p class="text-center mt-3">© NMORAILANE Tech. Shipping nationwide: Gauteng, KZN, Western Cape & beyond!</p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login - NMORAILANE Tech</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Custom Styles -->
+  <style>
+
+    body {
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+              url("images/front_page.jpg") no-repeat center center/cover;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+    }
+    .login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+              url("images/front_page.jpg") no-repeat center center/cover;
+}
+
+.login-card {
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 30px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.login-title {
+  color: #ce952b;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 25px;
+}
+  </style>
+</head>
+<body>
+
+  <div class="container login-container">
+    <div class="login-card col-md-6 col-lg-4">
+      <h3 class="text-center login-title">Welcome!</h3>
+
+      <form id="loginForm">
+        <div class="mb-3">
+          <label for="username" class="form-label">Username:</label>
+          <input type="text" id="username" class="form-control" placeholder="Enter your name" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="password" class="form-label">Password:</label>
+          <input type="password" id="password" class="form-control" placeholder="Enter your password" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="role" class="form-label">Select Role:</label>
+          <select id="role" class="form-select" required>
+            <option value="">Choose...</option>
+            <option value="admin">Admin</option>
+            <option value="user">User</option>
+          </select>
+        </div>
+      
+        <button type="submit" class="btn btn-primary w-100">Login</button>
+      </form>
+      <p class = "text-center mt-3">Don't have an account ?<a href="register.html">Register here</a></p>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const role = document.getElementById('role').value;
+
+      if (!role || !username || !password) {
+        alert("Please fill in all fields and select a role.");
+        return;
+      }
+
+      if (role === "admin") {
+      // Hardcoded admin credentials
+      const adminUsername = "admin";
+      const adminPassword = "admin123";
+
+      if (username === adminUsername && password === adminPassword) {
+        sessionStorage.setItem("loggedInUser", JSON.stringify({ username, role }));
+        localStorage.setItem("userRole", "admin");
+        alert("Admin login successful!");
+        window.location.href = "admin.html";
+      } else {
+        alert("Invalid admin credentials.");
+      }
+    }else if(role === "user"){
+      const storedUser = JSON.parse(localStorage.getItem("registeredUser"));
+
+      if (!storedUser) {
+      alert("No registered user found. Please register first.");
+      return;
+      }
+
+      if (
+    username === storedUser.username &&
+    password === storedUser.password &&
+    storedUser.role === "user"
+  ){
+    sessionStorage.setItem("loggedInUser", JSON.stringify(storedUser));
+    localStorage.setItem("userRole", "user");
+    console.log("Login successful. Redirecting to:", storedUser.role);
+    window.location.href = "index.html";
+    }
+    else {
+        alert("Invalid credentials or role mismatch.");
+      }}});
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NMORAILANE Tech - Products</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+        url("images/index_page.jpg") no-repeat center center/cover;
+    }
+    .product-img {
+      max-height: 400px;
+      object-fit: cover;
+    }
+  </style>
+</head>
+<script>
+  const role = localStorage.getItem("userRole");
+  if (role !== "user") {
+    window.location.href = "login.html";
+  }
+
+  function logout() {
+    localStorage.clear();
+    window.location.href = "login.html";
+  }
+
+  function addToCart(name, price) {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let existing = cart.find(p => p.name === name);
+    if (existing) {
+      existing.quantity += 1;
+    } else {
+      cart.push({ name, price, quantity: 1 });
+    }
+    localStorage.setItem("cart", JSON.stringify(cart));
+    alert(name + " added to cart!");
+  }
+</script>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">NMORAILANE Tech</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarUserMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-end" id="navbarUserMenu">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <span class="navbar-text text-white me-3" id="welcomeUser"></span>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="product.html">Products</a></li>
+          <li class="nav-item"><a class="nav-link" href="cart.html">Cart</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
+          <li class="nav-item"><a class="nav-link text-danger" href="#" onclick="logout()">Logout</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <section class="container my-5">
+    <h2 class="text-center mb-4">Our Top Picks</h2>
+    <div class="row">
+      <!-- Solar Power Bank -->
+      <div class="col-md-4 mb-4">
+        <div class="card shadow-sm">
+          <img src="/images/solar.jpeg" class="card-img-top product-img" alt="Solar power bank">
+          <div class="card-body">
+            <h5 class="card-title">Solar Power Bank</h5>
+            <p class="card-text">Stay powered up during load shedding or bush adventures.</p>
+            <p class="card-text"><strong>R499</strong></p>
+            <button class="btn btn-primary" onclick="addToCart('Solar Power Bank', 499)">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+      <!-- Township Smart Speaker -->
+      <div class="col-md-4 mb-4">
+        <div class="card shadow-sm">
+          <img src="/images/town.jpeg" class="card-img-top product-img" alt="Township smart speaker">
+          <div class="card-body">
+            <h5 class="card-title">Township Smart Speaker</h5>
+            <p class="card-text">Blast your fave tunes with SA-inspired design.</p>
+            <p class="card-text"><strong>R899</strong></p>
+            <button class="btn btn-primary" onclick="addToCart('Township Smart Speaker', 899)">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+      <!-- Rugged Laptop Sleeve -->
+      <div class="col-md-4 mb-4">
+        <div class="card shadow-sm">
+          <img src="/images/bag.jpeg" class="card-img-top product-img" alt="Rugged laptop sleeve">
+          <div class="card-body">
+            <h5 class="card-title">Rugged Laptop Sleeve</h5>
+            <p class="card-text">Protect your laptop on SA’s bumpy roads.</p>
+            <p class="card-text"><strong>R399</strong></p>
+            <button class="btn btn-primary" onclick="addToCart('Rugged Laptop Sleeve', 399)">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-dark text-white py-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <h5>NMORAILANE Tech</h5>
+          <p>Proudly South African. Building tech for Mzansi.</p>
+        </div>
+        <div class="col-md-4">
+          <h5>Explore</h5>
+          <ul class="list-unstyled">
+            <li><a href="index.html" class="text-white">Home</a></li>
+            <li><a href="product.html" class="text-white">Products</a></li>
+            <li><a href="cart.html" class="text-white">Cart</a></li>
+            <li><a href="profile.html" class="text-white">Profile</a></li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <h5>Support</h5>
+          <ul class="list-unstyled">
+            <li><a href="contact.html" class="text-white">Contact</a></li>
+            <li><a href="login.html" class="text-white">Login</a></li>
+            <li>Email: <a href="mailto:support@nmorailanetech.co.za" class="text-white">support@nmorailanetech.co.za</a></li>
+          </ul>
+        </div>
+      </div>
+      <p class="text-center mt-3">© NMORAILANE Tech. Shipping nationwide: Gauteng, KZN, Western Cape & beyond!</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

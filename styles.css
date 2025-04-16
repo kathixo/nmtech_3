@@ -1,0 +1,146 @@
+/* Universal Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #9f9f44;
+    margin: 0;
+    padding: 0;
+   
+  }
+  
+  h1{
+    color:#e68b13; 
+  }
+  h2, h3, h4, h5 {
+    color: #ce952b;
+  }
+  
+  /* Navbar */
+  .navbar {
+    background-color: #020202;
+  }
+  
+  .navbar .navbar-brand, .navbar .nav-link, .navbar-text {
+    color: #fff !important;
+  }
+  
+  .navbar .btn-outline-light {
+    border: 1px solid #fff;
+  }
+  
+  /* Hero Section */
+  .hero {
+    background-color: #f8f9fa;
+    padding: 60px 20px;
+    border-bottom: 2px solid #f8f9fa;
+  }
+  
+  .hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+  }
+  
+  .hero p {
+    font-size: 1.2rem;
+    color: #555;
+  }
+  
+  .hero img {
+    border-radius: 10px;
+    max-height: 400px;
+    object-fit: cover;
+  }
+  
+  /* Cards */
+  .card {
+    border: none;
+    border-radius: 12px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(156, 154, 154, 0.1);
+  }
+  
+  .card-title {
+    color: #020202;
+  }
+  
+  /* Section Titles */
+  section h2 {
+    font-weight: bold;
+    margin-bottom: 30px;
+  }
+  
+  /* Footer */
+  footer {
+    background-color: #ce952b;
+    color: #f8f9fa;
+  }
+  
+  footer a {
+    color: #f8f9fa;
+    text-decoration: none;
+  }
+  
+  footer a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Buttons */
+  .btn-primary {
+    background-color:  #ce952b;
+    border-color: #ce952b;
+  }
+  
+  .btn-primary:hover {
+    background-color:  #ce952b;
+    border-color: #ce952b;
+  }
+  
+  /* Animations */
+  .animate-hover:hover {
+    animation: pulse 0.3s ease-in-out;
+  }
+  
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); }
+  }
+  
+  /* Form Fields */
+  input, select, textarea {
+    border-radius: 6px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    width: 100%;
+  }
+  
+  /* Login Form Specific */
+  .login-card {
+    background-color: rgb(152, 150, 150);
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    max-width: 400px;
+    margin: 50px auto;
+  }
+  
+  .login-title {
+    font-weight: bold;
+    color:#ce952b;
+    margin-bottom: 25px;
+    text-align: center;
+  }
+  
+  /* Responsive Helpers */
+  @media (max-width: 768px) {
+    .hero h1 {
+      font-size: 2rem;
+    }
+  
+    .hero p {
+      font-size: 1rem;
+    }
+  }
